@@ -28,7 +28,7 @@ pipeline{
 
         stage('Run Tests') {
             when {
-                expression { params.RUN_TESTS == 'true' }
+                expression { return params.RUN_TESTS  }
             }
     steps {
         sh '''
