@@ -42,7 +42,12 @@ pipeline{
       steps{
         script{
           withSonarQubeEnv(credentialsId: 'SonarQube') { 
-                        sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+                        sh '''
+                sonar-scanner \
+                  -Dsonar.projectKey=python-app \
+                  -Dsonar.sources=. \
+                  -Dsonar.python.version=3.14
+            '''
 		        }
         }
       }
