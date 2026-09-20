@@ -27,6 +27,9 @@ pipeline{
 }
 
         stage('Run Tests') {
+            when {
+                expression { params.RUN_TESTS == 'true' }
+            }
     steps {
         sh '''
             . venv/bin/activate
