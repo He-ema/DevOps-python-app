@@ -1,6 +1,10 @@
 pipeline{
     agent {label 'Jenkins-Agent'}
 
+    environment {
+        SONARQUBE_SCANNER_HOME = tool 'sonarqube-scanner'
+    }
+
     stages{
 
 
@@ -42,11 +46,11 @@ pipeline{
         stage('SonarQube Analysis') {
     steps {
         script {
-            def scannerHome = tool 'sonarqube-scanner'
+            
 
             withSonarQubeEnv(credentialsId: 'SonarQube') {
                 sh """
-                    ${scannerHome}/bin/sonar-scanner \
+                    ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=python-app \
                         -Dsonar.sources=. \
                         -Dsonar.python.version=3.14
