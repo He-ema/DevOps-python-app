@@ -3,6 +3,13 @@ pipeline{
 
     environment {
         SONARQUBE_SCANNER_HOME = tool 'sonarqube-scanner'
+        APP_NAME = "python-app"
+        DOCKERHUB_USERNAME = "ohema"
+        DOCKERHUB_PASSWORD = "dockerhub"
+        BUILD_NUMBER = "${env.BUILD_NUMBER}"
+        RELEASE = "1.0.0"
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
     }
 
     stages{
@@ -68,6 +75,22 @@ pipeline{
             }
 
         }
+
+        stage("Build & Push Docker Image") {
+            steps {
+                script {
+                    docker.withRegistry('',DOCKERHUB_PASSWORD) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+    
+                    docker.withRegistry('',DOCKERHUB_PASSWORD) {
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
+                }
+            }
+
+       }
 
 
     }
