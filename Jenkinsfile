@@ -38,20 +38,15 @@ pipeline{
     }
 }
 
-        stage('SonarQube Analysis') {
-    steps {
-        script {
-            def scannerHome = tool 'sonarqube-scanner'
-
-            withSonarQubeEnv('SonarQube') {
-                sh "${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=python-app \
-                    -Dsonar.sources=. \
-                    -Dsonar.python.version=3.14"
-            }
+        stage('SonarQube Analysis'){
+      steps{
+        script{
+          withSonarQubeEnv(credentialsId: 'SonarQube') { 
+                        sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+		        }
         }
+      }
     }
-}
 
 
     }
