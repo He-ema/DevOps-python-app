@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello, This is my CD Test!"
+    return "Hello, This is my App Test!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3001)
